@@ -44,33 +44,23 @@ If you have cloned the repository locally:
 
 ---
 
-### Option 2: Running via `curl` directly from GitHub (Private Repository)
-Because this repository is private, GitHub returns a `404 Not Found` for unauthenticated requests. To run the script remotely, you must authenticate the `curl` request using a GitHub Personal Access Token (PAT) with `read` permissions for the repository:
+### Option 2: Running via `curl` directly from GitHub
+Because this repository is public, the raw scripts can be fetched without GitHub authentication:
 
 * **Standard Installation (Recommended):**
   ```bash
-  curl -fsSL -H "Authorization: token YOUR_GITHUB_PAT" \
-    https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.sh | sudo sh
+  curl -fsSL https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.sh | sudo sh
   ```
 
 * **Force CLI-only installation (Skip GUI):**
   ```bash
-  curl -fsSL -H "Authorization: token YOUR_GITHUB_PAT" \
-    https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.sh | sudo SKIP_UI_APP=true sh
+  curl -fsSL https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.sh | sudo SKIP_UI_APP=true sh
   ```
 
 * **Force GUI installation:**
   ```bash
-  curl -fsSL -H "Authorization: token YOUR_GITHUB_PAT" \
-    https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.sh | sudo SKIP_UI_APP=false sh
+  curl -fsSL https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.sh | sudo SKIP_UI_APP=false sh
   ```
-
-#### **Alternative: Using Basic Authentication**
-You can also pass your GitHub username and token using basic auth:
-```bash
-curl -fsSL -u "USERNAME:YOUR_GITHUB_PAT" \
-  https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.sh | sudo sh
-```
 
 ---
 
@@ -104,8 +94,7 @@ sudo ./cleanup.sh
 
 * **Linux or macOS:**
   ```bash
-  curl -fsSL -H "Authorization: token YOUR_GITHUB_PAT" \
-    https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/cleanup.sh | sudo sh
+  curl -fsSL https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/cleanup.sh | sudo sh
   ```
 
 > [!CAUTION]
