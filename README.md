@@ -2,9 +2,9 @@
 
 # Universal NetBird Installer Script
 
-An improved, context-aware standalone installation engine for provisioning the NetBird mesh VPN client across Linux distributions and macOS machines.
+An improved, context-aware standalone installation engine for provisioning the NetBird mesh VPN client across Linux distributions, macOS machines, and Windows.
 
-This script automatically determines the context of the host machine at runtime. It distinguishes between **headless server environments** and **graphical desktop environments**, ensuring that servers are provisioned with CLI-only tools and avoiding unnecessary GUI packages (`netbird-ui`).
+The scripts automatically determine the context of the host machine at runtime. They distinguish between **server/headless environments** and **graphical desktop environments**, ensuring that servers are provisioned with CLI-only tools and avoiding unnecessary GUI packages (`netbird-ui`).
 
 ---
 
@@ -13,13 +13,14 @@ This script automatically determines the context of the host machine at runtime.
 * **Auto-Environment Detection:** Dynamically detects whether a machine is a headless server or a GUI-based desktop.
 * **Mac Server / Headless Support:** On headless macOS machines (such as remote CI/CD runners), it automatically bypasses the official desktop `.pkg` installer and installs *only* the core `netbird` CLI binary.
 * **Linux Package Optimization:** On headless Linux servers, it registers native repositories but skips installation of the `netbird-ui` package, keeping server dependencies clean.
+* **Windows Server / Desktop Support:** On Windows Server, it installs the CLI binary and Windows service only. On Windows Desktop, it installs the MSI with UI support.
 * **Environment Overrides:** Provides manual control to force GUI installation or omission regardless of the auto-detection.
 
 ---
 
 ## 🚀 Usage
 
-### Option 1: Running the Script Locally
+### Linux and macOS: running locally
 If you have cloned the repository locally:
 
 1. **Make the script executable:**
@@ -44,7 +45,7 @@ If you have cloned the repository locally:
 
 ---
 
-### Option 2: Running via `curl` directly from GitHub
+### Linux and macOS: running via `curl` directly from GitHub
 Because this repository is public, the raw scripts can be fetched without GitHub authentication:
 
 * **Standard Installation (Recommended):**
@@ -64,9 +65,56 @@ Because this repository is public, the raw scripts can be fetched without GitHub
 
 ---
 
+### Windows: running locally
+Run from an elevated PowerShell session:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+.\install.ps1
+```
+
+Force CLI-only installation:
+
+```powershell
+$env:SKIP_UI_APP = "true"
+.\install.ps1
+```
+
+Force UI installation:
+
+```powershell
+$env:SKIP_UI_APP = "false"
+.\install.ps1
+```
+
+### Windows: running via `irm` directly from GitHub
+Run from an elevated PowerShell session:
+
+```powershell
+irm https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.ps1 | iex
+```
+
+Force CLI-only installation:
+
+```powershell
+$env:SKIP_UI_APP = "true"; irm https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.ps1 | iex
+```
+
+Force UI installation:
+
+```powershell
+$env:SKIP_UI_APP = "false"; irm https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/install.ps1 | iex
+```
+
+By default, Windows Server skips the UI and Windows Desktop installs it.
+
+---
+
 ## 🔍 Verification
 
-Once the script completes, you can verify if the GUI agent was skipped:
+Once the script completes, you can verify if the GUI agent was skipped.
+
+Linux and macOS:
 
 ```bash
 # 1. Verify the NetBird service daemon is active
@@ -74,6 +122,13 @@ sudo systemctl status netbird
 
 # 2. Check if the GUI helper exists (should return nothing on server installations)
 which netbird-ui
+```
+
+Windows:
+
+```powershell
+Get-Service netbird
+Get-Command netbird-ui.exe -ErrorAction SilentlyContinue
 ```
 
 ---
