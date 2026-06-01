@@ -135,22 +135,39 @@ Get-Command netbird-ui.exe -ErrorAction SilentlyContinue
 
 ## 🧹 Cleanup / Uninstall
 
-A companion `cleanup.sh` script is provided to completely remove NetBird (daemon, UI, config, and repository sources) from any Linux or macOS machine, leaving it in a clean state ready for a fresh installation.
+Companion cleanup scripts are provided to completely remove NetBird (daemon, UI, config, and repository sources), leaving the machine in a clean state ready for a fresh installation.
 
-It auto-detects the OS and the original package manager used (`apt`, `dnf`, `yum`, `rpm-ostree`, `brew`, or direct binary), then removes everything cleanly.
+On Linux and macOS, `cleanup.sh` auto-detects the OS and the original package manager used (`apt`, `dnf`, `yum`, `rpm-ostree`, `brew`, or direct binary), then removes everything cleanly.
 
-### Option 1: Running cleanup locally
+On Windows, `uninstall.ps1` removes the NetBird service, MSI installation, CLI binary, UI processes, scheduled tasks, machine PATH entry, and local NetBird data directories.
+
+### Linux and macOS: running cleanup locally
 ```bash
 chmod +x cleanup.sh
 sudo ./cleanup.sh
 ```
 
-### Option 2: Running cleanup via `curl` from GitHub
+### Linux and macOS: running cleanup via `curl` from GitHub
 
 * **Linux or macOS:**
   ```bash
   curl -fsSL https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/cleanup.sh | sudo sh
   ```
 
+### Windows: running uninstall locally
+Run from an elevated PowerShell session:
+
+```powershell
+Set-ExecutionPolicy -ExecutionPolicy Bypass -Scope Process -Force
+.\uninstall.ps1
+```
+
+### Windows: running uninstall via `irm` from GitHub
+Run from an elevated PowerShell session:
+
+```powershell
+irm https://raw.githubusercontent.com/skyengpro/global-gateway-agent/main/uninstall.ps1 | iex
+```
+
 > [!CAUTION]
-> This is a **destructive operation**. It will completely remove NetBird, all its configuration files, and registered peer data. After running this, you will need to re-run `install.sh` and re-register the peer with `netbird up`.
+> This is a **destructive operation**. It will completely remove NetBird, all its configuration files, and registered peer data. After running this, you will need to re-run the installer and re-register the peer with `netbird up`.
