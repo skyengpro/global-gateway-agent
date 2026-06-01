@@ -8,7 +8,7 @@ The scripts automatically determine the context of the host machine at runtime. 
 
 ---
 
-## ✨ Features
+##  Features
 
 * **Auto-Environment Detection:** Dynamically detects whether a machine is a headless server or a GUI-based desktop.
 * **Mac Server / Headless Support:** On headless macOS machines (such as remote CI/CD runners), it automatically bypasses the official desktop `.pkg` installer and installs *only* the core `netbird` CLI binary.
@@ -18,7 +18,7 @@ The scripts automatically determine the context of the host machine at runtime. 
 
 ---
 
-## 🚀 Usage
+##  Usage
 
 ### Linux and macOS: running locally
 If you have cloned the repository locally:
@@ -110,7 +110,7 @@ By default, Windows Server skips the UI and Windows Desktop installs it.
 
 ---
 
-## 🔍 Verification
+##  Verification
 
 Once the script completes, you can verify if the GUI agent was skipped.
 
@@ -133,7 +133,7 @@ Get-Command netbird-ui.exe -ErrorAction SilentlyContinue
 
 ---
 
-## 🧹 Cleanup / Uninstall
+##  Cleanup / Uninstall
 
 Companion cleanup scripts are provided to completely remove NetBird (daemon, UI, config, and repository sources), leaving the machine in a clean state ready for a fresh installation.
 
