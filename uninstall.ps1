@@ -84,9 +84,9 @@ function Get-NetBirdUninstallEntries {
     foreach ($root in $roots) {
         Get-ItemProperty -Path $root -ErrorAction SilentlyContinue |
             Where-Object {
-                $_.DisplayName -match "^NetBird" -or
-                $_.Publisher -match "NetBird" -or
-                $_.DisplayIcon -match "NetBird"
+                ($_.PSObject.Properties['DisplayName'] -and $_.DisplayName -match "^NetBird") -or
+                ($_.PSObject.Properties['Publisher'] -and $_.Publisher -match "NetBird") -or
+                ($_.PSObject.Properties['DisplayIcon'] -and $_.DisplayIcon -match "NetBird")
             }
     }
 }
